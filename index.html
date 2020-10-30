@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.17.1/firebase-messaging.js"></script>
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "XXXXXXXX",
+    authDomain: "XXXXXXXX",
+    databaseURL: "XXXXXXXX",
+    projectId: "XXXXXXXX",
+    storageBucket: "XXXXXXXX",
+    messagingSenderId: "XXXXXXXX",
+    appId: "XXXXXXXX",
+    measurementId: "XXXXXXXX"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey("XXXXXXXX");
+
+
+messaging.getToken().then((currentToken) => {
+  if (currentToken) {
+      console.log('currentToken. ',currentToken);
+  } else {
+    // Show permission request.
+    console.log('No Instance ID token available. Request permission to generate one.');
+   
+  }
+}).catch((err) => {
+  console.log('An error occurred while retrieving token. ', err);
+ 
+});
+
+
+messaging.onTokenRefresh(() => {
+  messaging.getToken().then((refreshedToken) => {
+    console.log('Token refreshed.',refreshedToken);
+
+  }).catch((err) => {
+    console.log('Unable to retrieve refreshed token ', err);
+  });
+});
+
+</script>
+
+
+</body>
+</html>
